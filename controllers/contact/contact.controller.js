@@ -70,4 +70,30 @@ module.exports = {
         }
     },
 
+    deleteProperty: async (req, res) => {
+        try {
+
+            let { id } = req.query
+
+            const contactExists = await contactModel.findOne({ _id: id })
+            if (!contactExists) {
+                return apiRes.BAD_REQUEST(res, message.DATA_NOT_FOUND);
+            }
+
+            await contactModel.findOneAndDelete({ _id: contactExists._id })
+            return apiRes.OK(res, message.DATA_DELETED, {});
+
+
+        } catch (error) {
+            console.log("🚀 ~ file: diamond.controller.js:132 ~ deleteProperty: ~ error", error)
+            switch (error.code) {
+                case 11000:
+                    return apiRes.DUPLICATE_VALUE(res, message.ERROR);
+
+                default:
+                    return apiRes.CATCH_ERROR(res, error.message);
+            }
+        }
+    },
+
 }
