@@ -55,7 +55,7 @@ module.exports = {
             if (getContact.length) {
                 return apiRes.OK(res, message.DATA_FETCHED, { getContact, count: appraisalCount });
             } else {
-                return apiRes.OK(res, message.DATA_NOT_FOUND);
+                return apiRes.OK(res, message.DATA_NOT_FOUND, { getContact: [] });
             }
 
         } catch (error) {
